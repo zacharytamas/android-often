@@ -2,6 +2,7 @@ package com.zacharytamas.often.ui.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -18,6 +19,8 @@ import io.realm.RealmResults;
  * A fragment representing a list of Items.
  */
 public class TodayListFragment extends ListFragment {
+
+    private static final String TAG = TodayListFragment.class.getSimpleName();
 
     private TodayAdapter mAdapter;
 
@@ -68,6 +71,10 @@ public class TodayListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
+
+        Habit habit = mAdapter.getItem(position);
+
+        Log.d(TAG, "Next available: " + habit.getNextAvailableAt().toString());
     }
 
 }

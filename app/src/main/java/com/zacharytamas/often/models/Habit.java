@@ -1,5 +1,7 @@
 package com.zacharytamas.often.models;
 
+import com.zacharytamas.often.utils.Dates;
+
 import java.util.Date;
 
 import io.realm.RealmObject;
@@ -12,14 +14,29 @@ public class Habit extends RealmObject {
     private String title;
     private boolean required;
     private byte repeatType;
-    private byte repeatUnit;
+    private int repeatUnit;
     private int repeatScalar;
     private byte repeatWeekdays;
 
     private Date createdAt;
     private Date availableAt;
     private Date lastCompletedAt;
+    private boolean dueAtSpecificTime;
     private Date dueAt;
+
+    public Date getNextAvailableAt() {
+        return Dates.nextAvailableAt(this, new Date());
+    }
+
+    // BELOW ARE AUTO-GENERATED, NECESSARY GETTERS/SETTERS
+
+    public boolean isDueAtSpecificTime() {
+        return dueAtSpecificTime;
+    }
+
+    public void setDueAtSpecificTime(boolean dueAtSpecificTime) {
+        this.dueAtSpecificTime = dueAtSpecificTime;
+    }
 
     public String getTitle() {
         return title;
@@ -45,11 +62,11 @@ public class Habit extends RealmObject {
         this.repeatType = repeatType;
     }
 
-    public byte getRepeatUnit() {
+    public int getRepeatUnit() {
         return repeatUnit;
     }
 
-    public void setRepeatUnit(byte repeatUnit) {
+    public void setRepeatUnit(int repeatUnit) {
         this.repeatUnit = repeatUnit;
     }
 
@@ -100,5 +117,6 @@ public class Habit extends RealmObject {
     public void setDueAt(Date dueAt) {
         this.dueAt = dueAt;
     }
+
 
 }

@@ -10,6 +10,7 @@ import com.zacharytamas.often.models.RepeatType;
 import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -59,8 +60,11 @@ public class Data {
             Habit habit1 = realm.createObject(Habit.class);
             habit1.setTitle("Brush teeth before bed");
             habit1.setRepeatType(RepeatType.PERIODICAL);
+            habit1.setRepeatUnit(GregorianCalendar.DATE);
+            habit1.setRepeatScalar(1);
             habit1.setLastCompletedAt(createDate(2014, 11, 10));
             habit1.setAvailableAt(createDate(2014, 5, 1));
+            habit1.setDueAtSpecificTime(true);
 
             Habit habit2 = realm.createObject(Habit.class);
             habit2.setTitle("Wash face before bed");
@@ -82,7 +86,7 @@ public class Data {
     private static Date createDate(Integer year, Integer month, Integer day) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(0);
-        cal.set(year, month, day, 0, 0, 0);
+        cal.set(year, month, day, 17, 0, 0);
         return cal.getTime();
     }
 
