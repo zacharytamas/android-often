@@ -2,6 +2,7 @@ package com.zacharytamas.often.utils;
 
 import com.zacharytamas.often.models.Habit;
 import com.zacharytamas.often.models.RepeatType;
+import com.zacharytamas.often.models.RepeatUnit;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -16,6 +17,7 @@ public class Dates {
 
         Date nextAvailableAt = null;
         int calendarUnit = -1;
+        int repeatScalar = habit.getRepeatScalar();
 
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(now);
@@ -26,9 +28,6 @@ public class Dates {
         // actually the same. This means even though I'm storing the repeatUnit as
         // GregorianCalendar constants, Java does not believe me.
         switch (habit.getRepeatUnit()) {
-            case GregorianCalendar.HOUR:
-                calendarUnit = GregorianCalendar.HOUR;
-                break;
             case GregorianCalendar.DATE:
                 calendarUnit = GregorianCalendar.DATE;
                 break;
@@ -37,6 +36,10 @@ public class Dates {
                 break;
             case GregorianCalendar.YEAR:
                 calendarUnit = GregorianCalendar.YEAR;
+                break;
+            case RepeatUnit.WEEKLY:
+                calendarUnit = GregorianCalendar.DATE;
+                repeatScalar *= RepeatUnit.DAYS_IN_WEEK;
                 break;
         }
 
@@ -48,12 +51,14 @@ public class Dates {
                     return now;
                 }
 
-                calendar.add(calendarUnit, habit.getRepeatScalar());
+                calendar.add(calendarUnit, repeatScalar);
                 calendar.set(GregorianCalendar.HOUR, 0);
                 calendar.set(GregorianCalendar.MINUTE, 0);
                 calendar.set(GregorianCalendar.SECOND, 0);
 
                 return calendar.getTime();
+            case RepeatType.REGULARLY:
+                break;
         }
 
         return nextAvailableAt;
