@@ -10,11 +10,11 @@ import io.realm.RealmObject;
 public class HabitOccurrence extends RealmObject {
 
     private Habit habit;
-    private Date completedAt;
-    private Date dueAt;
-    private Date availableAt;
+    private String note;
+    private int streakLength;
 
-    //
+    private Date completedAt;
+    private Date wasDueAt;
 
     public Habit getHabit() {
         return habit;
@@ -22,6 +22,22 @@ public class HabitOccurrence extends RealmObject {
 
     public void setHabit(Habit habit) {
         this.habit = habit;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public int getStreakLength() {
+        return streakLength;
+    }
+
+    public void setStreakLength(int streakLength) {
+        this.streakLength = streakLength;
     }
 
     public Date getCompletedAt() {
@@ -32,19 +48,11 @@ public class HabitOccurrence extends RealmObject {
         this.completedAt = completedAt;
     }
 
-    public Date getDueAt() {
-        return dueAt;
+    public Date getWasDueAt() {
+        return wasDueAt;
     }
 
-    public void setDueAt(Date dueAt) {
-        this.dueAt = dueAt;
-    }
-
-    public Date getAvailableAt() {
-        return availableAt;
-    }
-
-    public void setAvailableAt(Date availableAt) {
-        this.availableAt = availableAt;
+    public void setWasDueAt(Date wasDueAt) {
+        this.wasDueAt = wasDueAt;
     }
 }
