@@ -3,6 +3,7 @@ package com.zacharytamas.often.models.managers;
 import android.content.Context;
 
 import com.zacharytamas.often.models.HabitOccurrence;
+import com.zacharytamas.often.utils.Data;
 
 import java.util.Date;
 
@@ -19,15 +20,7 @@ public class HabitOccurrenceManager {
 
     public HabitOccurrenceManager(Context context) {
         mContext = context;
-        mRealm = Realm.getInstance(mContext);
-    }
-
-    public RealmResults<HabitOccurrence> getHabitsForToday() {
-        RealmResults<HabitOccurrence> occurrences = mRealm.where(HabitOccurrence.class)
-                .lessThan("availableAt", new Date())
-                .findAll();
-
-        return occurrences;
+        mRealm = Data.getRealm(context);
     }
 
 }

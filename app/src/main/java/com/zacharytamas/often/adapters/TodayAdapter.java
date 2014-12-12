@@ -21,7 +21,7 @@ import io.realm.RealmResults;
 /**
  * Created by zjones on 12/11/14.
  */
-public class TodayAdapter extends RealmBaseAdapter<HabitOccurrence> implements ListAdapter {
+public class TodayAdapter extends RealmBaseAdapter<Habit> implements ListAdapter {
 
     private static final int LAYOUT = R.layout.item_habit;
 
@@ -30,7 +30,7 @@ public class TodayAdapter extends RealmBaseAdapter<HabitOccurrence> implements L
         TextView lastCompletedTextView;
     }
 
-    public TodayAdapter(Context context, RealmResults<HabitOccurrence> results, boolean automaticUpdate) {
+    public TodayAdapter(Context context, RealmResults<Habit> results, boolean automaticUpdate) {
         super(context, results, automaticUpdate);
     }
 
@@ -48,8 +48,7 @@ public class TodayAdapter extends RealmBaseAdapter<HabitOccurrence> implements L
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        HabitOccurrence occurrence = realmResults.get(i);
-        Habit habit = occurrence.getHabit();
+        Habit habit = realmResults.get(i);
         viewHolder.habitTitle.setText(habit.getTitle());
 
         String convertedDate = "";

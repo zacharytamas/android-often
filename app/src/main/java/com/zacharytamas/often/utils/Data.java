@@ -25,10 +25,10 @@ public class Data {
         try {
             realm = Realm.getInstance(context);
         } catch (RealmMigrationNeededException e) {
-
+            // If the Realm needs migration, migrate it.
             String defaultPath = (new File(context.getFilesDir(), Realm.DEFAULT_REALM_NAME)).getAbsolutePath();
-
             Realm.migrateRealmAtPath(defaultPath, new Migration());
+            // Then get it again.
             realm = Realm.getInstance(context);
         }
 
@@ -52,7 +52,7 @@ public class Data {
         }
 
 
-        if (deleteFirst || habitCount == 0) {
+        if (habitCount == 0) {
 
             realm.beginTransaction();
 
@@ -60,24 +60,18 @@ public class Data {
             habit1.setTitle("Brush teeth before bed");
             habit1.setRepeatType(RepeatType.PERIODICAL);
             habit1.setLastCompletedAt(createDate(2014, 11, 10));
-            HabitOccurrence occurrence1 = realm.createObject(HabitOccurrence.class);
-            occurrence1.setAvailableAt(createDate(2014, 5, 1));
-            occurrence1.setHabit(habit1);
+            habit1.setAvailableAt(createDate(2014, 5, 1));
 
             Habit habit2 = realm.createObject(Habit.class);
             habit2.setTitle("Wash face before bed");
             habit2.setRepeatType(RepeatType.PERIODICAL);
             habit2.setLastCompletedAt(createDate(2014, 11, 8));
-            HabitOccurrence occurrence2 = realm.createObject(HabitOccurrence.class);
-            occurrence2.setAvailableAt(createDate(2014, 9, 1));
-            occurrence2.setHabit(habit2);
+            habit2.setAvailableAt(createDate(2014, 9, 1));
 
             Habit habit3 = realm.createObject(Habit.class);
             habit3.setTitle("Have car washed");
             habit3.setRepeatType(RepeatType.PERIODICAL);
-            HabitOccurrence occurrence3 = realm.createObject(HabitOccurrence.class);
-            occurrence3.setAvailableAt(createDate(2014, 11, 25));
-            occurrence3.setHabit(habit3);
+            habit3.setAvailableAt(createDate(2014, 11, 25));
 
             realm.commitTransaction();
 

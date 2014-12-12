@@ -8,6 +8,7 @@ import android.widget.ListView;
 import com.zacharytamas.often.adapters.TodayAdapter;
 import com.zacharytamas.often.models.Habit;
 import com.zacharytamas.often.models.HabitOccurrence;
+import com.zacharytamas.often.models.managers.HabitManager;
 import com.zacharytamas.often.models.managers.HabitOccurrenceManager;
 
 import io.realm.Realm;
@@ -55,9 +56,9 @@ public class TodayListFragment extends ListFragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        HabitOccurrenceManager manager = new HabitOccurrenceManager(getActivity());
+        HabitManager manager = new HabitManager(getActivity());
 
-        RealmResults<HabitOccurrence> results = manager.getHabitsForToday();
+        RealmResults<Habit> results = manager.getAvailableHabits();
 
         mAdapter = new TodayAdapter(getActivity(), results, true);
 
