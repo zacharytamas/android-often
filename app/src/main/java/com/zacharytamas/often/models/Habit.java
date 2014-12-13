@@ -28,6 +28,14 @@ public class Habit extends RealmObject {
         return Dates.nextAvailableAt(this, new Date());
     }
 
+    public void setRepeatOnWeekday(int weekday, boolean repeat) {
+        repeatWeekdays = Dates.setBitForWeekday(repeatWeekdays, weekday, repeat);
+    }
+
+    public boolean getRepeatsOnWeekday(int weekday) {
+        return Dates.getBitForWeekday(repeatWeekdays, weekday);
+    }
+
     // BELOW ARE AUTO-GENERATED, NECESSARY GETTERS/SETTERS
 
     public boolean isDueAtSpecificTime() {

@@ -13,6 +13,21 @@ import java.util.GregorianCalendar;
  */
 public class Dates {
 
+    public static byte setBitForWeekday(byte mask, int weekday, boolean repeat) {
+
+        byte weekdayBit = (byte) (weekday - 1);
+
+        if (repeat) {  // set the bit
+            return (byte) (mask | (1 << weekdayBit));
+        } else {  // clear the bit
+            return (byte) (mask & ~(1 << weekdayBit));
+        }
+    }
+
+    public static boolean getBitForWeekday(byte mask, int weekday) {
+        return (mask & (1 << (weekday - 1))) > 0;
+    }
+
     public static Date nextAvailableAt(Habit habit, Date now) {
 
         Date nextAvailableAt = null;
@@ -57,8 +72,20 @@ public class Dates {
                 calendar.set(GregorianCalendar.SECOND, 0);
 
                 return calendar.getTime();
-            case RepeatType.REGULARLY:
-                break;
+            case RepeatType.WEEKLY:
+                do {
+                    calendar.add(GregorianCalendar.DATE, 1);
+
+                    // If the repeatScalar is more than one and we've just entered
+                    // a new week, move ahead.
+                    if (repeatScalar > 1 &&
+                        calendar.get(GregorianCalendar.DAY_OF_WEEK) == GregorianCalendar.SUNDAY) {
+                        calendar.add(GregorianCalendar.DATE, (repeatScalar - 1) * 7);
+                    }
+
+                } while (!habit.getRepeatsOnWeekday(calendar.get(GregorianCalendar.DAY_OF_WEEK)));
+
+                return calendar.getTime();
         }
 
         return nextAvailableAt;
