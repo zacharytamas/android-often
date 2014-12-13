@@ -6,6 +6,6 @@ package com.zacharytamas.often.models;
 public class RepeatType {
 
     public static final byte PERIODICAL = 1;
-    public static final byte REGULARLY = 2;
+    public static final byte WEEKLY = 2;
 
 }

@@ -2,6 +2,7 @@ package com.zacharytamas.often.utils;
 
 import com.zacharytamas.often.models.Habit;
 import com.zacharytamas.often.models.RepeatType;
+import com.zacharytamas.often.models.RepeatUnit;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -12,10 +13,26 @@ import java.util.GregorianCalendar;
  */
 public class Dates {
 
+    public static byte setBitForWeekday(byte mask, int weekday, boolean repeat) {
+
+        byte weekdayBit = (byte) (weekday - 1);
+
+        if (repeat) {  // set the bit
+            return (byte) (mask | (1 << weekdayBit));
+        } else {  // clear the bit
+            return (byte) (mask & ~(1 << weekdayBit));
+        }
+    }
+
+    public static boolean getBitForWeekday(byte mask, int weekday) {
+        return (mask & (1 << (weekday - 1))) > 0;
+    }
+
     public static Date nextAvailableAt(Habit habit, Date now) {
 
         Date nextAvailableAt = null;
         int calendarUnit = -1;
+        int repeatScalar = habit.getRepeatScalar();
 
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(now);
@@ -26,9 +43,6 @@ public class Dates {
         // actually the same. This means even though I'm storing the repeatUnit as
         // GregorianCalendar constants, Java does not believe me.
         switch (habit.getRepeatUnit()) {
-            case GregorianCalendar.HOUR:
-                calendarUnit = GregorianCalendar.HOUR;
-                break;
             case GregorianCalendar.DATE:
                 calendarUnit = GregorianCalendar.DATE;
                 break;
@@ -37,6 +51,10 @@ public class Dates {
                 break;
             case GregorianCalendar.YEAR:
                 calendarUnit = GregorianCalendar.YEAR;
+                break;
+            case RepeatUnit.WEEKLY:
+                calendarUnit = GregorianCalendar.DATE;
+                repeatScalar *= RepeatUnit.DAYS_IN_WEEK;
                 break;
         }
 
@@ -48,10 +66,24 @@ public class Dates {
                     return now;
                 }
 
-                calendar.add(calendarUnit, habit.getRepeatScalar());
+                calendar.add(calendarUnit, repeatScalar);
                 calendar.set(GregorianCalendar.HOUR, 0);
                 calendar.set(GregorianCalendar.MINUTE, 0);
                 calendar.set(GregorianCalendar.SECOND, 0);
+
+                return calendar.getTime();
+            case RepeatType.WEEKLY:
+                do {
+                    calendar.add(GregorianCalendar.DATE, 1);
+
+                    // If the repeatScalar is more than one and we've just entered
+                    // a new week, move ahead.
+                    if (repeatScalar > 1 &&
+                        calendar.get(GregorianCalendar.DAY_OF_WEEK) == GregorianCalendar.SUNDAY) {
+                        calendar.add(GregorianCalendar.DATE, (repeatScalar - 1) * 7);
+                    }
+
+                } while (!habit.getRepeatsOnWeekday(calendar.get(GregorianCalendar.DAY_OF_WEEK)));
 
                 return calendar.getTime();
         }
