@@ -74,27 +74,32 @@ public class NextAvailableAtTest extends InstrumentationTestCase {
         habit.setRepeatType(RepeatType.WEEKLY);
         habit.setRepeatScalar(1);
         habit.setRepeatOnWeekday(GregorianCalendar.MONDAY, true);
-        habit.setRepeatOnWeekday(GregorianCalendar.WEDNESDAY, true);
+        habit.setRepeatOnWeekday(GregorianCalendar.SATURDAY, true);
+        habit.setRepeatOnWeekday(GregorianCalendar.SUNDAY, true);
 
-        // Next should be Monday
+        // Next should be Saturday
         Date next = nextAvailableAt(habit, now);
-        assertSameDay(getDate(1992, 1, 3), next);
+        assertSameDay(getDate(1992, 1, 1), next);
 
-        // After that is Wednesday
+        // After that is Sunday, the next day.
         Date next2 = nextAvailableAt(habit, next);
-        assertSameDay(getDate(1992, 1, 5), next2);
+        assertSameDay(getDate(1992, 1, 2), next2);
 
-        // After that should be the following Monday.
+        // After that is Monday, the next day.
         Date next3 = nextAvailableAt(habit, next2);
-        assertSameDay(getDate(1992, 1, 10), next3);
+        assertSameDay(getDate(1992, 1, 3), next3);
+
+        // After that should be the Saturday.
+        Date next4 = nextAvailableAt(habit, next3);
+        assertSameDay(getDate(1992, 1, 8), next4);
 
         // Set the repeatScalar to 2 weeks, which should make it skip a week.
         habit.setRepeatScalar(2);
-        next3 = nextAvailableAt(habit, next2);
+        next3 = nextAvailableAt(habit, next);
 
-        // Because the scalar is two weeks, it should skip to the Monday of
+        // Because the scalar is two weeks, it should skip to the Sunday of
         // the following week instead of the very next one.
-        assertSameDay(getDate(1992, 1, 17), next3);
+        assertSameDay(getDate(1992, 1, 9), next3);
 
     }
 
