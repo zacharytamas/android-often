@@ -91,4 +91,14 @@ public class Dates {
         return nextAvailableAt;
     }
 
+    public static Date nextDueAt(Habit habit, Date now) {
+
+        Date date = nextAvailableAt(habit, now);
+
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(GregorianCalendar.DATE, 1);
+
+        return calendar.getTime();
+    }
 }
