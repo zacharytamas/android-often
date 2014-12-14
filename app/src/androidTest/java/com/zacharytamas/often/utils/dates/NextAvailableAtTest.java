@@ -3,9 +3,6 @@ package com.zacharytamas.often.utils.dates;
 import com.zacharytamas.often.models.RepeatType;
 import com.zacharytamas.often.models.RepeatUnit;
 
-import org.joda.time.DateTime;
-
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
