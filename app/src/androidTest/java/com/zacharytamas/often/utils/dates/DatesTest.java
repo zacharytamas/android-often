@@ -6,9 +6,7 @@ import com.zacharytamas.often.models.Habit;
 
 import org.joda.time.DateTime;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * Created by zacharytamas on 12/13/14.
@@ -25,7 +23,7 @@ public class DatesTest extends InstrumentationTestCase {
         habit = new Habit();
         habit.setTitle("Brush teeth");
 
-        now = getDate(1992, 0, 31);
+        now = getDate(1992, 1, 31);
     }
 
     protected void assertSameDay(Date d1, Date d2) {
@@ -37,9 +35,7 @@ public class DatesTest extends InstrumentationTestCase {
     }
 
     protected Date getDate(int year, int month, int date) {
-        Calendar calendar = GregorianCalendar.getInstance();
-        calendar.set(year, month, date, 0, 0, 0);
-        return calendar.getTime();
+        return new DateTime(year, month, date, 0, 0).toDate();
     }
 
 }

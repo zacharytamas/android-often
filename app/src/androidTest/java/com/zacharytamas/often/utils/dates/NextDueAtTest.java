@@ -4,9 +4,9 @@ import com.zacharytamas.often.models.RepeatType;
 import com.zacharytamas.often.models.RepeatUnit;
 import com.zacharytamas.often.utils.Dates;
 
-import java.util.Calendar;
+import org.joda.time.DateTime;
+
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * Created by zacharytamas on 12/13/14.
@@ -21,16 +21,15 @@ public class NextDueAtTest extends DatesTest {
         Date nextAvailable = Dates.nextAvailableAt(habit, now);
         Date nextDue = Dates.nextDueAt(habit, now);
 
-        assertSameDay(getDate(1992, 1, 1), nextAvailable);
+        assertSameDay(getDate(1992, 2, 1), nextAvailable);
         // Should be due at midnight of the day, which is 0:00:00 of the next day.
-        assertSameDay(getDate(1992, 1, 2), nextDue);
+        assertSameDay(getDate(1992, 2, 2), nextDue);
 
-        Calendar calendar = GregorianCalendar.getInstance();
-        calendar.setTime(nextDue);
+        DateTime dt = new DateTime(nextDue);
 
-        assertEquals(0, calendar.get(Calendar.HOUR_OF_DAY));
-        assertEquals(0, calendar.get(Calendar.MINUTE));
-        assertEquals(0, calendar.get(Calendar.SECOND));
+        assertEquals(0, dt.getHourOfDay());
+        assertEquals(0, dt.getMinuteOfHour());
+        assertEquals(0, dt.getSecondOfMinute());
 
     }
 
