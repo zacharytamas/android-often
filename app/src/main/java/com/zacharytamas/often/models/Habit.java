@@ -126,5 +126,4 @@ public class Habit extends RealmObject {
         this.dueAt = dueAt;
     }
 
-
 }
