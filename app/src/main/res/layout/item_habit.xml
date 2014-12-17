@@ -6,17 +6,16 @@
 
     <com.github.pavlospt.CircleView
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/circleView"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginLeft="16dp"
-        android:id="@+id/circleView"
         app:titleText="1"
         app:subtitleText=""
         app:titleSize="12dp"
-        app:subtitleSize="9dp"
-        app:fillRadius="20"
         app:titleColor="@color/white"
-        app:fillColor="@color/green"/>
+        app:strokeWidthSize="0"
+        />
 
     <TextView
         android:id="@+id/habitTitle"
