@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary500">#03A9F4</color>
-    <color name="primary900">#01579B</color>
+    <color name="primary500">#2196F3</color>
+    <color name="primary900">#0D47A1</color>
 
     <color name="green">#8BC34A</color>
     <color name="white">#ffffff</color>
