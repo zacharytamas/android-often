@@ -91,4 +91,9 @@ public class Dates {
                            .toDate();
 
     }
+
+    // TODO Write tests
+    public static boolean isOverdue(Habit habit) {
+        return new DateTime(habit.getDueAt()).isBeforeNow();
+    }
 }

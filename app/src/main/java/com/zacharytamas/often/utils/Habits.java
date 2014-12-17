@@ -16,6 +16,13 @@ public class Habits {
         habit.setAvailableAt(Dates.nextAvailableAt(habit, now.toDate()));
         habit.setDueAt(Dates.nextDueAt(habit, now.toDate()));
 
+        // TODO Test this
+        if (Dates.isOverdue(habit)) {
+            habit.setStreakValue(0);
+        } else {
+            habit.setStreakValue(habit.getStreakValue() + 1);
+        }
+
     }
 
 }

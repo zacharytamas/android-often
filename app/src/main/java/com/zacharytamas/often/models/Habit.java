@@ -23,6 +23,7 @@ public class Habit extends RealmObject {
     private Date lastCompletedAt;
     private boolean dueAtSpecificTime;
     private Date dueAt;
+    private int streakValue;
 
     public Date getNextAvailableAt() {
         return Dates.nextAvailableAt(this, new Date());
@@ -126,4 +127,11 @@ public class Habit extends RealmObject {
         this.dueAt = dueAt;
     }
 
+    public int getStreakValue() {
+        return streakValue;
+    }
+
+    public void setStreakValue(int streakValue) {
+        this.streakValue = streakValue;
+    }
 }
