@@ -23,6 +23,7 @@ public class TodayActivity extends ActionBarActivity {
         Data.addTestData(this, true);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitle(R.string.activity_title_today);
         setSupportActionBar(mToolbar);
 
         if (savedInstanceState == null) {
@@ -30,12 +31,6 @@ public class TodayActivity extends ActionBarActivity {
                 .add(R.id.container,  new TodayListFragment())
                 .commit();
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mToolbar.setTitle(R.string.activity_title_today);
     }
 
     @Override

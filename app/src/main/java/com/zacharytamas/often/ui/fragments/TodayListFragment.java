@@ -2,17 +2,13 @@ package com.zacharytamas.often.ui.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
 import com.zacharytamas.often.adapters.TodayAdapter;
 import com.zacharytamas.often.models.Habit;
-import com.zacharytamas.often.models.HabitOccurrence;
 import com.zacharytamas.often.models.managers.HabitManager;
-import com.zacharytamas.often.models.managers.HabitOccurrenceManager;
 
-import io.realm.Realm;
 import io.realm.RealmResults;
 
 /**
@@ -23,6 +19,7 @@ public class TodayListFragment extends ListFragment {
     private static final String TAG = TodayListFragment.class.getSimpleName();
 
     private TodayAdapter mAdapter;
+    private HabitManager mManager;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,11 +56,12 @@ public class TodayListFragment extends ListFragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        HabitManager manager = new HabitManager(getActivity());
+        mManager = new HabitManager(getActivity());
 
-        RealmResults<Habit> results = manager.getAvailableHabits();
+        RealmResults<Habit> availableHabits = mManager.getAvailableHabits();
+        RealmResults<Habit> dueHabits = mManager.getDueHabits();
 
-        mAdapter = new TodayAdapter(getActivity(), results, true);
+        mAdapter = new TodayAdapter(getActivity(), dueHabits, availableHabits);
 
         setListAdapter(mAdapter);
     }
@@ -73,8 +71,11 @@ public class TodayListFragment extends ListFragment {
         super.onListItemClick(l, v, position, id);
 
         Habit habit = mAdapter.getItem(position);
+        mManager.completeHabit(habit);
 
-        Log.d(TAG, "Next available: " + habit.getNextAvailableAt().toString());
+        // TODO This could be more efficient and just remove the habit that was completed.
+        mAdapter.refill(mManager.getDueHabits(), mManager.getAvailableHabits());
+
     }
 
 }

@@ -6,6 +6,10 @@ import com.zacharytamas.often.models.Habit;
 import com.zacharytamas.often.models.HabitOccurrence;
 import com.zacharytamas.often.models.Migration;
 import com.zacharytamas.often.models.RepeatType;
+import com.zacharytamas.often.models.RepeatUnit;
+
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 
 import java.io.File;
 import java.util.Calendar;
@@ -62,9 +66,11 @@ public class Data {
             habit1.setRepeatType(RepeatType.PERIODICAL);
             habit1.setRepeatUnit(GregorianCalendar.DATE);
             habit1.setRepeatScalar(1);
-            habit1.setLastCompletedAt(createDate(2014, 11, 10));
+            habit1.setLastCompletedAt(new DateTime().minusDays(1).toDate());
             habit1.setAvailableAt(createDate(2014, 5, 1));
-            habit1.setDueAtSpecificTime(true);
+            habit1.setDueAt(new DateTime().plusDays(1).toDate());
+            habit1.setRequired(true);
+            habit1.setStreakValue(20);
 
             Habit habit2 = realm.createObject(Habit.class);
             habit2.setTitle("Wash face before bed");
@@ -75,7 +81,39 @@ public class Data {
             Habit habit3 = realm.createObject(Habit.class);
             habit3.setTitle("Have car washed");
             habit3.setRepeatType(RepeatType.PERIODICAL);
-            habit3.setAvailableAt(createDate(2014, 11, 25));
+            habit3.setAvailableAt(createDate(2014, 10, 25));
+            habit3.setLastCompletedAt(createDate(2014, 11, 1));
+
+            Habit habit4 = realm.createObject(Habit.class);
+            habit4.setTitle("Record weight");
+            habit4.setRepeatType(RepeatType.PERIODICAL);
+            habit4.setRepeatScalar(1);
+            habit4.setRepeatUnit(RepeatUnit.DAILY);
+            habit4.setAvailableAt(createDate(2014, 9, 1));
+            habit4.setLastCompletedAt(createDate(2014, 9, 1));
+            habit4.setDueAt(createDate(2014, 9, 2));
+            habit4.setRequired(true);
+
+            Habit habit5 = realm.createObject(Habit.class);
+            habit5.setTitle("Do laundry");
+            habit5.setRepeatType(RepeatType.WEEKLY);
+            habit5.setRepeatScalar(1);
+            habit5.setRepeatUnit(RepeatUnit.WEEKLY);
+            habit5.setAvailableAt(createDate(2014, 9, 1));
+            habit5.setLastCompletedAt(createDate(2014, 11, 1));
+            habit5.setDueAt(createDate(2014, 9, 2));
+            habit5.setRequired(true);
+
+            Habit habit6 = realm.createObject(Habit.class);
+            habit6.setTitle("Take out trash");
+            habit6.setRepeatType(RepeatType.WEEKLY);
+            habit6.setRepeatScalar(1);
+            habit6.setRepeatUnit(RepeatUnit.WEEKLY);
+            habit6.setRepeatOnWeekday(DateTimeConstants.THURSDAY, true);
+            habit6.setAvailableAt(createDate(2014, 9, 1));
+            habit6.setLastCompletedAt(createDate(2014, 9, 1));
+            habit6.setDueAt(createDate(2014, 9, 2));
+            habit6.setRequired(true);
 
             realm.commitTransaction();
 
